@@ -46,4 +46,9 @@ public class testTx {
             studentMapper.insert(student);
         }
     }
+
+    @Test
+    public void testPageInfo(){
+        System.out.println(studentService.findByKeyword(1,10,"").getList());
+    }
 }

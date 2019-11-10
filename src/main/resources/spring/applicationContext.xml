@@ -35,6 +35,27 @@
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
         <!-- 扫描Mybatis配置文件 -->
         <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"/>
+
+        <!-- 配置插件 -->
+        <property name="plugins">
+            <array>
+                <!-- 分页插件 -->
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <props>
+                            <!-- 配置数据库方言 -->
+                            <!-- MySQL分页：LIMIT -->
+                            <!-- Oracle分页：TopN分析 -->
+                            <prop key="dialect">mysql</prop>
+
+                            <!-- 配置自动修正页码 -->
+                            <!-- pageNo的有效范围：1~总页数 -->
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <!-- 使用mybatis的接口代理开发模式(必须保证接口和对应的mybatis的xml名称相同，且在一个文件夹内) -->

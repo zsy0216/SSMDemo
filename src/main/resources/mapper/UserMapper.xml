@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.demo.mapper.StudentMapper" >
-  <resultMap id="BaseResultMap" type="com.demo.entity.Student" >
+<mapper namespace="com.demo.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.demo.entity.User" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
-    <result column="stu_sex" property="stuSex" jdbcType="VARCHAR" />
-    <result column="stu_age" property="stuAge" jdbcType="INTEGER" />
-    <result column="stu_phone" property="stuPhone" jdbcType="VARCHAR" />
-    <result column="stu_remark" property="stuRemark" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="user_remark" property="userRemark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,30 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, stu_name, stu_sex, stu_age, stu_phone, stu_remark
+    id, user_name, password, user_remark
   </sql>
-
-  <!-- 自定义SQL -->
-  <select id="selectByKeyword" resultType="com.demo.entity.Student">
-    SELECT
-    <include refid="Base_Column_List"/>
-    FROM
-    t_student
-    WHERE
-    stu_name LIKE CONCAT("%", #{keyword}, "%")
-    OR stu_phone LIKE CONCAT("%", #{keyword}, "%")
-    OR stu_age LIKE CONCAT("%", #{keyword}, "%")
-    ORDER BY
-    id asc
-  </select>
-
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.demo.entity.StudentExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.demo.entity.UserExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_student
+    from t_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -102,96 +85,76 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_student
+    from t_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_student
+    delete from t_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.demo.entity.StudentExample" >
-    delete from t_student
+  <delete id="deleteByExample" parameterType="com.demo.entity.UserExample" >
+    delete from t_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.demo.entity.Student" >
-    insert into t_student (id, stu_name, stu_sex, 
-      stu_age, stu_phone, stu_remark
-      )
-    values (#{id,jdbcType=INTEGER}, #{stuName,jdbcType=VARCHAR}, #{stuSex,jdbcType=VARCHAR}, 
-      #{stuAge,jdbcType=INTEGER}, #{stuPhone,jdbcType=VARCHAR}, #{stuRemark,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.demo.entity.User" >
+    insert into t_user (id, user_name, password, 
+      user_remark)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userRemark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.demo.entity.Student" >
-    insert into t_student
+  <insert id="insertSelective" parameterType="com.demo.entity.User" >
+    insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="stuName != null" >
-        stu_name,
+      <if test="userName != null" >
+        user_name,
       </if>
-      <if test="stuSex != null" >
-        stu_sex,
+      <if test="password != null" >
+        password,
       </if>
-      <if test="stuAge != null" >
-        stu_age,
-      </if>
-      <if test="stuPhone != null" >
-        stu_phone,
-      </if>
-      <if test="stuRemark != null" >
-        stu_remark,
+      <if test="userRemark != null" >
+        user_remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="stuName != null" >
-        #{stuName,jdbcType=VARCHAR},
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="stuSex != null" >
-        #{stuSex,jdbcType=VARCHAR},
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
       </if>
-      <if test="stuAge != null" >
-        #{stuAge,jdbcType=INTEGER},
-      </if>
-      <if test="stuPhone != null" >
-        #{stuPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="stuRemark != null" >
-        #{stuRemark,jdbcType=VARCHAR},
+      <if test="userRemark != null" >
+        #{userRemark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.demo.entity.StudentExample" resultType="java.lang.Integer" >
-    select count(*) from t_student
+  <select id="countByExample" parameterType="com.demo.entity.UserExample" resultType="java.lang.Integer" >
+    select count(*) from t_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update t_student
+    update t_user
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.stuName != null" >
-        stu_name = #{record.stuName,jdbcType=VARCHAR},
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
       </if>
-      <if test="record.stuSex != null" >
-        stu_sex = #{record.stuSex,jdbcType=VARCHAR},
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
       </if>
-      <if test="record.stuAge != null" >
-        stu_age = #{record.stuAge,jdbcType=INTEGER},
-      </if>
-      <if test="record.stuPhone != null" >
-        stu_phone = #{record.stuPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.stuRemark != null" >
-        stu_remark = #{record.stuRemark,jdbcType=VARCHAR},
+      <if test="record.userRemark != null" >
+        user_remark = #{record.userRemark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -199,45 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update t_student
+    update t_user
     set id = #{record.id,jdbcType=INTEGER},
-      stu_name = #{record.stuName,jdbcType=VARCHAR},
-      stu_sex = #{record.stuSex,jdbcType=VARCHAR},
-      stu_age = #{record.stuAge,jdbcType=INTEGER},
-      stu_phone = #{record.stuPhone,jdbcType=VARCHAR},
-      stu_remark = #{record.stuRemark,jdbcType=VARCHAR}
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      user_remark = #{record.userRemark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.demo.entity.Student" >
-    update t_student
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.entity.User" >
+    update t_user
     <set >
-      <if test="stuName != null" >
-        stu_name = #{stuName,jdbcType=VARCHAR},
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="stuSex != null" >
-        stu_sex = #{stuSex,jdbcType=VARCHAR},
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="stuAge != null" >
-        stu_age = #{stuAge,jdbcType=INTEGER},
-      </if>
-      <if test="stuPhone != null" >
-        stu_phone = #{stuPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="stuRemark != null" >
-        stu_remark = #{stuRemark,jdbcType=VARCHAR},
+      <if test="userRemark != null" >
+        user_remark = #{userRemark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.demo.entity.Student" >
-    update t_student
-    set stu_name = #{stuName,jdbcType=VARCHAR},
-      stu_sex = #{stuSex,jdbcType=VARCHAR},
-      stu_age = #{stuAge,jdbcType=INTEGER},
-      stu_phone = #{stuPhone,jdbcType=VARCHAR},
-      stu_remark = #{stuRemark,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.demo.entity.User" >
+    update t_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_remark = #{userRemark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
